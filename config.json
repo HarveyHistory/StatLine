@@ -1,0 +1,36 @@
+{
+  "app": {
+    "name": "StatLine",
+    "version": "1.0.0",
+    "environment": "development"
+  },
+  "api": {
+    "key": "YOUR_API_KEY_HERE",
+    "baseUrl": "https://api.hypixel.net",
+    "timeout": 5000
+  },
+  "cache": {
+    "enabled": true,
+    "ttl": 60000,
+    "maxEntries": 100
+  },
+  "rateLimit": {
+    "enabled": true,
+    "requestsPerMinute": 60,
+    "warnThreshold": 50
+  },
+  "logging": {
+    "enabled": true,
+    "level": "info",
+    "logRequests": true
+  },
+  "features": {
+    "bedwars": true,
+    "skywars": true,
+    "playerComparison": false
+  },
+  "defaults": {
+    "uuid": "example-uuid",
+    "mode": "bedwars"
+  }
+}
