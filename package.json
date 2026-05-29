@@ -1,18 +1,13 @@
 {
   "name": "statline",
   "version": "1.0.0",
-  "description": "Personal Hypixel stats tracking tool",
+  "description": "Personal Discord bot for viewing Hypixel player stats",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "node src/index.js"
+    "start": "node src/index.js"
   },
-  "keywords": [
-    "hypixel",
-    "api",
-    "stats",
-    "minecraft"
-  ],
-  "author": "Harvey",
+  "dependencies": {
+    "discord.js": "^14.13.0"
+  },
   "license": "MIT"
 }
