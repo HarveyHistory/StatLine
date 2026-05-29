@@ -9,6 +9,11 @@
     "baseUrl": "https://api.hypixel.net",
     "timeout": 5000
   },
+  "discord": {
+    "enabled": true,
+    "token": "YOUR_DISCORD_BOT_TOKEN",
+    "guildId": "YOUR_GUILD_ID"
+  },
   "cache": {
     "enabled": true,
     "ttl": 60000,
@@ -16,21 +21,9 @@
   },
   "rateLimit": {
     "enabled": true,
-    "requestsPerMinute": 60,
-    "warnThreshold": 50
-  },
-  "logging": {
-    "enabled": true,
-    "level": "info",
-    "logRequests": true
+    "requestsPerMinute": 60
   },
   "features": {
-    "bedwars": true,
-    "skywars": true,
-    "playerComparison": false
-  },
-  "defaults": {
-    "uuid": "example-uuid",
-    "mode": "bedwars"
+    "bedwars": true
   }
 }
