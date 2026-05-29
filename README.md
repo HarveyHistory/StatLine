@@ -1,11 +1,37 @@
 # StatLine
 
-StatLine is a small personal project that tracks Hypixel player statistics for myself and a few friends.
+StatLine is a small personal Discord bot built to fetch and display Hypixel player statistics in a simple and readable way.
 
-It allows us to view basic stats, compare performance, and track progress over time in game modes like BedWars and SkyWars without relying on in game menus.
+The bot is designed for use by myself and a few friends, allowing us to quickly view player stats on demand without needing to navigate in game menus. It currently focuses on BedWars stats, but may be expanded in the future.
 
-This project is mainly for learning how to work with the Hypixel API and handle player data. It is not a public service and is only used by a small group.
+## Features
 
-All API usage follows Hypixel guidelines and stays within rate limits. This project does not include automated tracking, proxying, or any restricted features.
+* Fetch player stats using the Hypixel API
+* Display BedWars statistics such as wins, losses, and FKDR
+* Simple command-based usage through Discord
+* Basic caching system to reduce unnecessary API requests
+* Rate limit awareness to stay within API limits
+
+## Usage
+
+The bot responds to commands to retrieve player stats.
+
+Example:
+
+* `/stats <uuid>` → returns player statistics
+
+All data is fetched only when a command is used.
+
+## API Usage
+
+This project uses the Hypixel API to retrieve player data. Requests are made on demand and responses are cached to reduce API usage.
+
+The bot does not perform any continuous polling, automated tracking, or background data collection.
+
+## Purpose
+
+This project was created to learn how to work with external APIs and integrate them into a simple Discord-based tool. It is intended for small-scale personal use and is not a public service.
+
+## Disclaimer
 
 This project is not affiliated with or endorsed by Hypixel.
