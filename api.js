@@ -1,5 +1,6 @@
 const https = require("https");
 const config = require("../config.json");
+const logger = require("./logger");
 
 class APIClient {
     constructor() {
@@ -11,27 +12,19 @@ class APIClient {
         }, 60000);
     }
 
-    async request(endpoint) {
+    request(endpoint) {
         return new Promise((resolve, reject) => {
-            const { api, cache, rateLimit, logging } = config;
-
-            // Rate limiting
-            if (rateLimit.enabled && this.requests >= rateLimit.requestsPerMinute) {
-                return reject("Rate limit exceeded (local)");
+            if (config.rateLimit.enabled && this.requests >= config.rateLimit.requestsPerMinute) {
+                return reject("Rate limit reached");
             }
 
             this.requests++;
 
-            if (rateLimit.enabled && this.requests >= rateLimit.warnThreshold) {
-                console.log("[RateLimit] Approaching limit...");
-            }
-
-            // Cache
-            if (cache.enabled && this.cache.has(endpoint)) {
+            if (config.cache.enabled && this.cache.has(endpoint)) {
                 return resolve(this.cache.get(endpoint));
             }
 
-            const url = `${api.baseUrl}${endpoint}&key=${api.key}`;
+            const url = `${config.api.baseUrl}${endpoint}&key=${config.api.key}`;
             const start = Date.now();
 
             const req = https.get(url, (res) => {
@@ -40,44 +33,35 @@ class APIClient {
                 res.on("data", chunk => data += chunk);
 
                 res.on("end", () => {
-                    const time = Date.now() - start;
+                    const duration = Date.now() - start;
 
                     try {
                         const json = JSON.parse(data);
 
                         if (!json.success) {
-                            return reject("API error");
+                            logger.warn(`API error (${duration}ms)`);
+                            return reject("API failed");
                         }
 
-                        if (logging.logRequests) {
-                            console.log(`[API] ${endpoint} - ${time}ms`);
-                        }
+                        logger.log(`Request ${endpoint} (${duration}ms)`);
 
-                        if (cache.enabled) {
+                        if (config.cache.enabled) {
                             this.cache.set(endpoint, json);
-
-                            if (this.cache.size > cache.maxEntries) {
-                                const firstKey = this.cache.keys().next().value;
-                                this.cache.delete(firstKey);
-                            }
-
-                            setTimeout(() => {
-                                this.cache.delete(endpoint);
-                            }, cache.ttl);
+                            setTimeout(() => this.cache.delete(endpoint), config.cache.ttl);
                         }
 
                         resolve(json);
 
                     } catch {
-                        reject("Invalid JSON");
+                        reject("Invalid response");
                     }
                 });
             });
 
             req.on("error", reject);
-            req.setTimeout(api.timeout, () => {
+            req.setTimeout(config.api.timeout, () => {
                 req.destroy();
-                reject("Request timeout");
+                reject("Timeout");
             });
         });
     }
