@@ -1,25 +1,17 @@
-const config = require("../config.json");
-
-function formatTime() {
+function getTime() {
     return new Date().toISOString();
 }
 
-function log(message) {
-    if (!config.logging.enabled) return;
-    console.log(`[${formatTime()}] [INFO] ${message}`);
+function log(msg) {
+    console.log(`[${getTime()}] [INFO] ${msg}`);
 }
 
-function warn(message) {
-    if (!config.logging.enabled) return;
-    console.warn(`[${formatTime()}] [WARN] ${message}`);
+function warn(msg) {
+    console.warn(`[${getTime()}] [WARN] ${msg}`);
 }
 
-function error(message) {
-    console.error(`[${formatTime()}] [ERROR] ${message}`);
+function error(msg) {
+    console.error(`[${getTime()}] [ERROR] ${msg}`);
 }
 
-module.exports = {
-    log,
-    warn,
-    error
-};
+module.exports = { log, warn, error };
