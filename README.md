@@ -32,6 +32,4 @@ The bot does not perform any continuous polling, automated tracking, or backgrou
 
 This project was created to learn how to work with external APIs and integrate them into a simple Discord-based tool. It is intended for small-scale personal use and is not a public service.
 
-## Disclaimer
 
-This project is not affiliated with or endorsed by Hypixel.
