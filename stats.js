@@ -1,10 +1,10 @@
 const api = require("./api");
 
-function calculateLevel(exp = 0) {
+function calcLevel(exp = 0) {
     return Math.floor(Math.sqrt(exp / 100));
 }
 
-function getBedwarsStats(data) {
+function getBedwars(data) {
     const bw = data?.stats?.Bedwars || {};
 
     return {
@@ -14,23 +14,22 @@ function getBedwarsStats(data) {
         deaths: bw.deaths_bedwars || 0,
         fkdr: bw.final_kills_bedwars && bw.final_deaths_bedwars
             ? (bw.final_kills_bedwars / bw.final_deaths_bedwars).toFixed(2)
-            : 0
+            : "0.00"
     };
 }
 
 async function getPlayer(uuid) {
-    const data = await api.request(`/player?uuid=${uuid}`);
+    const res = await api.request(`/player?uuid=${uuid}`);
 
-    if (!data.player) return null;
+    if (!res.player) return null;
 
-    const player = data.player;
+    const p = res.player;
 
     return {
-        uuid: player.uuid,
-        level: calculateLevel(player.networkExp),
-        karma: player.karma || 0,
-        achievements: player.achievements || {},
-        bedwars: getBedwarsStats(player)
+        uuid: p.uuid,
+        level: calcLevel(p.networkExp),
+        karma: p.karma || 0,
+        bedwars: getBedwars(p)
     };
 }
 
